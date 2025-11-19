@@ -45,3 +45,32 @@ Navigator.push() menambah halaman baru sehingga pengguna dapat kembali ke halama
  4. Bagaimana kamu menyesuaikan warna tema agar aplikasi Football Shop memiliki identitas visual yang konsisten dengan brand toko?
 
  Warna tema disesuaikan melalui ColorScheme dan warna utama seperti indigo untuk memastikan tombol, AppBar, dan elemen antarmuka lain memiliki identitas visual yang konsisten dan mencerminkan brand Football Shop.
+
+ Tugas 9
+ 1. Jelaskan mengapa kita perlu membuat model Dart saat mengambil/mengirim data JSON? Apa konsekuensinya jika langsung memetakan Map<String, dynamic> tanpa model (terkait validasi tipe, null-safety, maintainability)? 
+ 
+ Kita perlu membuat model Dart karena model memberikan struktur data yang jelas, tipe yang terjamin, dan dukungan null-safety. Dengan model, kita dapat memvalidasi tipe data sejak compile-time sehingga lebih aman dan mudah dirawat. Jika kita langsung memakai Map<String, dynamic>, maka seluruh data menjadi dynamic, rawan error runtime, sulit melakukan pengecekan null, dan kode menjadi kurang rapi serta tidak scalable saat aplikasi berkembang.
+
+ 2. Apa fungsi package http dan CookieRequest dalam tugas ini? Jelaskan perbedaan peran http vs CookieRequest. 
+ 
+ Package http digunakan sebagai alat dasar untuk melakukan request HTTP tanpa state, cocok untuk API stateless seperti REST. Sementara CookieRequest digunakan khusus untuk autentikasi berbasis session Django karena ia menyimpan cookie, menyertakan session secara otomatis pada tiap request, serta menangani CSRF token. Jadi, http bersifat low-level dan stateless, sedangkan CookieRequest adalah wrapper high-level yang menjaga session login pengguna.
+ 
+ 3. Jelaskan mengapa instance CookieRequest perlu untuk dibagikan ke semua komponen di aplikasi Flutter. 
+ 
+ Instance CookieRequest harus dibagikan ke seluruh komponen aplikasi Flutter karena session pengguna hanya valid jika cookie tersimpan dalam satu objek yang konsisten. Jika tiap widget memiliki instance berbeda, cookie tidak terbagi dan server tidak mengenali pengguna sebagai login. Dengan menaruhnya di Provider, semua halaman dapat mengakses session yang sama dan state login tetap terjaga.
+ 
+ 4. Jelaskan konfigurasi konektivitas yang diperlukan agar Flutter dapat berkomunikasi dengan Django. Mengapa kita perlu menambahkan 10.0.2.2 pada ALLOWED_HOSTS, mengaktifkan CORS dan pengaturan SameSite/cookie, dan menambahkan izin akses internet di Android? Apa yang akan terjadi jika konfigurasi tersebut tidak dilakukan dengan benar? 
+
+ Flutter dapat berkomunikasi dengan Django jika konfigurasi jaringan diatur dengan benar. 10.0.2.2 perlu ditambahkan pada ALLOWED_HOSTS agar Django menerima request dari emulator Android. CORS perlu diaktifkan untuk memperbolehkan permintaan lintas origin, sementara pengaturan SameSite/cookie memungkinkan Django mengirimkan cookie session ke Flutter. Android juga memerlukan izin internet agar aplikasi dapat melakukan HTTP request. Jika konfigurasi tersebut tidak dilakukan, request akan ditolak, cookie tidak terkirim, atau Flutter tidak bisa mengakses server sama sekali.
+ 
+ 5. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter. 
+ 
+ Mekanisme pengiriman data dimulai dari input yang dimasukkan pengguna pada Flutter, kemudian Flutter mengubah input menjadi JSON dan mengirimkannya ke Django melalui POST atau GET. Django memproses data, menyimpan atau mengambilnya dari database, lalu mengembalikan JSON sebagai respons. Flutter menerjemahkan JSON tersebut menjadi model Dart dan menampilkannya ke UI.
+ 
+ 6. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter. 
+ 
+ Pada login dan register, Flutter mengirim username dan password ke Django. Django memvalidasi data, membuat user baru atau mencocokkan kredensial, dan jika sukses mengembalikan session cookie. CookieRequest menyimpan cookie tersebut sehingga permintaan selanjutnya dianggap sebagai permintaan pengguna yang sudah login. Setelah login sukses, Flutter menavigasi ke halaman menu. Logout dilakukan dengan menghapus session di Django dan menghapus cookie di Flutter.
+ 
+ 7. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step!
+
+ Checklist diimplementasikan berurutan: pertama memastikan Django berjalan dan endpoint dapat diakses. Kedua, membuat fitur registrasi di Flutter. Ketiga, membuat halaman login. Keempat, menghubungkan login Flutter ke autentikasi Django menggunakan CookieRequest. Kelima, membuat model Dart sesuai JSON Django. Keenam, membuat halaman daftar item dengan mengambil data dari endpoint JSON. Ketujuh, menampilkan atribut lengkap item pada card. Kedelapan, membuat halaman detail item. Kesembilan, membuka detail saat card ditekan. Kesepuluh, menampilkan semua atribut item pada halaman detail. Kesebelas, menambahkan tombol kembali. Terakhir, membuat filter agar hanya menampilkan item milik pengguna yang login.
