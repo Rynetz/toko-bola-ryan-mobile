@@ -65,12 +65,9 @@ Navigator.push() menambah halaman baru sehingga pengguna dapat kembali ke halama
  
  5. Jelaskan mekanisme pengiriman data mulai dari input hingga dapat ditampilkan pada Flutter. 
  
- Mekanisme pengiriman data dimulai dari input yang dimasukkan pengguna pada Flutter, kemudian Flutter mengubah input menjadi JSON dan mengirimkannya ke Django melalui POST atau GET. Django memproses data, menyimpan atau mengambilnya dari database, lalu mengembalikan JSON sebagai respons. Flutter menerjemahkan JSON tersebut menjadi model Dart dan menampilkannya ke UI.
+ 
  
  6. Jelaskan mekanisme autentikasi dari login, register, hingga logout. Mulai dari input data akun pada Flutter ke Django hingga selesainya proses autentikasi oleh Django dan tampilnya menu pada Flutter. 
  
- Pada login dan register, Flutter mengirim username dan password ke Django. Django memvalidasi data, membuat user baru atau mencocokkan kredensial, dan jika sukses mengembalikan session cookie. CookieRequest menyimpan cookie tersebut sehingga permintaan selanjutnya dianggap sebagai permintaan pengguna yang sudah login. Setelah login sukses, Flutter menavigasi ke halaman menu. Logout dilakukan dengan menghapus session di Django dan menghapus cookie di Flutter.
  
  7. Jelaskan bagaimana cara kamu mengimplementasikan checklist di atas secara step-by-step!
-
- Checklist diimplementasikan berurutan: pertama memastikan Django berjalan dan endpoint dapat diakses. Kedua, membuat fitur registrasi di Flutter. Ketiga, membuat halaman login. Keempat, menghubungkan login Flutter ke autentikasi Django menggunakan CookieRequest. Kelima, membuat model Dart sesuai JSON Django. Keenam, membuat halaman daftar item dengan mengambil data dari endpoint JSON. Ketujuh, menampilkan atribut lengkap item pada card. Kedelapan, membuat halaman detail item. Kesembilan, membuka detail saat card ditekan. Kesepuluh, menampilkan semua atribut item pada halaman detail. Kesebelas, menambahkan tombol kembali. Terakhir, membuat filter agar hanya menampilkan item milik pengguna yang login.
